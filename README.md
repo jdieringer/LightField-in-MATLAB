@@ -4,15 +4,15 @@ A simple library for automating Lightfield from Princeton Instruments using MATL
 
 ## Usage
 
-Setup_LightField_Environment.m is a script to prepare the environment with all of the proper .NET assemblies for automation.
-lfm.m contains the lfm class which handles automation of LightField. Multiple instances of LightField are allowed.
+Setup_LightField_Environment.m is a script to prepare the environment with all of the proper .NET assemblies for automation..
+lfm.m contains the lfm class which handles automation of LightField. Multiple instances of LightField are allowed...
 
-lfm class:
-	Properties (public):
-		automation;
-        addinbase;
-        application;
-        experiment;
+lfm class:..
+	Properties (public):..
+		automation;..
+        	addinbase;
+        	application;
+        	experiment;
 	Methods:
 		lfm(visible); 			The constructor of the class. Set visible to true or false if you want LightField visible.
 		close();				Closes the instance of LightField.

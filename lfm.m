@@ -53,7 +53,7 @@ classdef (ConstructOnLoad = true) lfm
                     data = [];
                     for i = 0:imageset.Frames-1
                         frame = imageset.GetFrame(0,i);
-                        data = cat(3,data,reshape(frame.GetData().double,frame.Width,frame.Height)');
+                        data = cat(3,data,reshape(frame.GetData().double,frame.Width,frame.Height,1)');
                     end
                     return;
                 end
@@ -67,7 +67,7 @@ classdef (ConstructOnLoad = true) lfm
                         buffer = [];
                         for i = 0:imageset.Frames-1
                             frame = imageset.GetFrame(j,i);
-                            buffer = cat(3,buffer,reshape(frame.GetData().double,frame.Width,frame.Height)');
+                            buffer = cat(3,buffer,reshape(frame.GetData().double,frame.Width,frame.Height,1)');
                         end
                     end
                     data{j+1} = buffer;

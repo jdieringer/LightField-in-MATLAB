@@ -20,7 +20,11 @@ classdef (ConstructOnLoad = true) lfm
             if obj.experiment.Exists(setting)
                 if obj.experiment.IsValid(setting,value)
                     obj.experiment.SetValue(setting,value);
+                else 
+                    disp('value not valid')
                 end
+            else
+                disp('operation not found/defined');
             end
         end
         function return_value = get(obj,setting)
@@ -58,8 +62,10 @@ classdef (ConstructOnLoad = true) lfm
                     accessed_wavelength = 1;
                 end
             end
+            
             lastfile = obj.application.FileManager.GetRecentlyAcquiredFileNames.GetItem(0);
 			imageset = obj.application.FileManager.OpenFile(lastfile,FileAccess.Read);
+            
             if imageset.Regions.Length == 1
                 if imageset.Frames == 1
                     frame = imageset.GetFrame(0,0);

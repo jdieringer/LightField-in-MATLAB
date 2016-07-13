@@ -37,10 +37,26 @@ classdef (ConstructOnLoad = true) lfm
         function set_frames(obj,value)
             obj.set(PrincetonInstruments.LightField.AddIns.ExperimentSettings.FrameSettingsFramesToStore,value);
         end
-        function data = acquire(obj)
+        function [data, wavelength] = acquire(obj)
             import System.IO.FileAccess;
             obj.experiment.Acquire();
-            while obj.experiment.IsRunning
+            accessed_wavelength = 0;
+            
+            while obj.experiment.IsRunning % During acquisition...
+                % Case where wavelength is empty
+                if accessed_wavelength == 0 && isempty(obj.experiment.SystemColumnCalibration)
+                    fprintf('Wavelength information not available\n');
+                    wavelength = [];
+                    accessed_wavelength = 1;
+                elseif accessed_wavelength == 0
+                    wavelen_len = obj.experiment.SystemColumnCalibration.Length;
+                    assert(wavelen_len >= 1);
+                    wavelength = zeros(wavelen_len, 1);
+                    for i = 0:wavelen_len-1 % load wavelength info directly from LightField instance
+                        wavelength(i+1) = obj.experiment.SystemColumnCalibration.Get(i);
+                    end
+                    accessed_wavelength = 1;
+                end
             end
             lastfile = obj.application.FileManager.GetRecentlyAcquiredFileNames.GetItem(0);
 			imageset = obj.application.FileManager.OpenFile(lastfile,FileAccess.Read);
